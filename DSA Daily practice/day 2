@@ -1,0 +1,787 @@
+Here are your **Day 2 DSA notes**, formatted cleanly for GitHub with a **large separator after every program**, as you requested.
+
+# 🧠 DSA — Day 2
+
+## 📌 Topics Covered
+
+* Array traversal
+* Conditional counting
+* Conditional sum
+* Finding maximum/minimum with conditions
+* Occurrence counting
+* Difference between maximum and minimum
+* Average of array elements
+* Multiple array passes
+* Second smallest element
+* Checking whether an array is sorted
+
+---
+
+# 1. Count Elements Greater Than 20
+
+### 🎯 Problem
+
+Given an array, count how many elements are greater than `20`.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class CountEleGreaterThan20 {
+    public static void main(String[] args) {
+
+        int[] arr = {10, 25, 7, 40, 15};
+        int count = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 20) {
+                count++;
+            }
+        }
+
+        System.out.println("Count = " + count);
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Count = 2
+```
+
+### 🔍 Dry Run
+
+```text
+10 → 10 > 20 ❌
+25 → 25 > 20 ✅ → count = 1
+7  → 7 > 20 ❌
+40 → 40 > 20 ✅ → count = 2
+15 → 15 > 20 ❌
+```
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+### 🔑 Pattern
+
+```java
+if (arr[i] > condition) {
+    count++;
+}
+```
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 2. Sum of Elements Greater Than 10
+
+### 🎯 Problem
+
+Find the sum of all elements greater than `10`.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class SumOfEleGreaterThan10 {
+    public static void main(String[] args) {
+
+        int[] arr = {12, 5, 18, 7, 25, 10};
+        int sum = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 10) {
+                sum = sum + arr[i];
+            }
+        }
+
+        System.out.println("Sum = " + sum);
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Sum = 55
+```
+
+### 🔍 Dry Run
+
+```text
+12 → > 10 → sum = 12
+5  → ❌
+18 → > 10 → sum = 30
+7  → ❌
+25 → > 10 → sum = 55
+10 → ❌
+```
+
+⚠️ Remember: `> 10` does **not** include `10`.
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 3. Find Largest Even Number
+
+### 🎯 Problem
+
+Find the largest even number in an array.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class LargestEvenNum {
+    public static void main(String[] args) {
+
+        int[] arr = {5, 12, 8, 20, 15, 3};
+        int largest = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] % 2 == 0 && arr[i] > largest) {
+                largest = arr[i];
+            }
+        }
+
+        System.out.println("Largest Even = " + largest);
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Largest Even = 20
+```
+
+### 🔍 Dry Run
+
+```text
+5  → odd ❌
+12 → even → largest = 12
+8  → even but 8 < 12 ❌
+20 → even and 20 > 12 → largest = 20
+15 → odd ❌
+3  → odd ❌
+```
+
+### 🔑 Important Pattern
+
+Combine a condition with maximum checking:
+
+```java
+if (arr[i] % 2 == 0 && arr[i] > largest)
+```
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 4. Find Smallest Odd Number
+
+### 🎯 Problem
+
+Find the smallest odd number in an array.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class SmallestOddNum {
+    public static void main(String[] args) {
+
+        int[] arr = {10, 15, 22, 7, 8, 13};
+        int smallest = 0;
+        boolean found = false;
+
+        for (int i = 0; i < arr.length; i++) {
+
+            if (arr[i] % 2 != 0) {
+
+                if (!found) {
+                    smallest = arr[i];
+                    found = true;
+                } else if (arr[i] < smallest) {
+                    smallest = arr[i];
+                }
+            }
+        }
+
+        System.out.println("Smallest Odd = " + smallest);
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Smallest Odd = 7
+```
+
+### 🔍 Dry Run
+
+```text
+10 → even ❌
+15 → odd → first odd → smallest = 15
+22 → even ❌
+7  → odd → 7 < 15 → smallest = 7
+8  → even ❌
+13 → odd → 13 < 7 ❌
+```
+
+### 🧠 Important Concept
+
+We cannot simply use:
+
+```java
+int smallest = arr[0];
+```
+
+because `arr[0]` might not be odd.
+
+Instead, we find the **first valid odd element**.
+
+### 🔑 Pattern
+
+```java
+boolean found = false;
+```
+
+Then:
+
+```java
+if (!found) {
+    smallest = arr[i];
+    found = true;
+}
+```
+
+After finding the first valid element:
+
+```java
+else if (arr[i] < smallest)
+```
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 5. Count Occurrences of an Element
+
+### 🎯 Problem
+
+Count how many times `10` appears in the array.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class TimesANumAppears {
+    public static void main(String[] args) {
+
+        int[] arr = {10, 20, 10, 30, 20, 10};
+        int count = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == 10) {
+                count++;
+            }
+        }
+
+        System.out.println("Count = " + count);
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Count = 3
+```
+
+### 🔍 Dry Run
+
+```text
+10 → found → count = 1
+20 → ❌
+10 → found → count = 2
+30 → ❌
+20 → ❌
+10 → found → count = 3
+```
+
+### 🔑 Pattern
+
+```java
+if (arr[i] == target) {
+    count++;
+}
+```
+
+This pattern can be used for **any target value**.
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 6. Difference Between Largest and Smallest
+
+### 🎯 Problem
+
+Find the difference between the largest and smallest elements.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class DiffBetweenSmallAndBiggest {
+    public static void main(String[] args) {
+
+        int[] arr = {10, 20, 30, 40, 50};
+
+        int largest = arr[0];
+        int smallest = arr[0];
+
+        for (int i = 0; i < arr.length; i++) {
+
+            if (arr[i] > largest) {
+                largest = arr[i];
+            }
+
+            if (arr[i] < smallest) {
+                smallest = arr[i];
+            }
+        }
+
+        int difference = largest - smallest;
+
+        System.out.println("Difference = " + difference);
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Difference = 40
+```
+
+### 🔍 Calculation
+
+```text
+Largest = 50
+Smallest = 10
+
+Difference = 50 - 10
+           = 40
+```
+
+### 🧠 Important Pattern
+
+You can find both maximum and minimum in **one loop**.
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 7. Average of Array Elements
+
+### 🎯 Problem
+
+Find the average of all elements in an array.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class AverageOfElements {
+    public static void main(String[] args) {
+
+        int[] arr = {10, 20, 30, 40, 50};
+
+        int sum = 0;
+        int count = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            sum = sum + arr[i];
+            count++;
+        }
+
+        double average = (double) sum / count;
+
+        System.out.println("Average = " + average);
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Average = 30.0
+```
+
+### 🔍 Calculation
+
+```text
+Sum = 10 + 20 + 30 + 40 + 50
+    = 150
+
+Count = 5
+
+Average = 150 / 5
+        = 30.0
+```
+
+### 🧠 Important
+
+If both operands are `int`:
+
+```java
+int result = 5 / 2;
+```
+
+Result:
+
+```text
+2
+```
+
+For decimal division:
+
+```java
+double result = (double) 5 / 2;
+```
+
+Result:
+
+```text
+2.5
+```
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 8. Count Elements Greater Than Average
+
+### 🎯 Problem
+
+Count how many elements are greater than the average.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class ElementsGreaterThanAverage {
+    public static void main(String[] args) {
+
+        int[] arr = {10, 20, 30, 40, 50};
+
+        int sum = 0;
+        int count = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            sum = sum + arr[i];
+            count++;
+        }
+
+        int average = sum / count;
+
+        int greaterCount = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > average) {
+                greaterCount++;
+            }
+        }
+
+        System.out.println("Count = " + greaterCount);
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Count = 2
+```
+
+### 🔍 Dry Run
+
+Average:
+
+```text
+150 / 5 = 30
+```
+
+Then:
+
+```text
+10 → ❌
+20 → ❌
+30 → ❌
+40 → ✅
+50 → ✅
+```
+
+Therefore:
+
+```text
+Count = 2
+```
+
+### 🧠 Important Pattern
+
+This problem uses **two passes**:
+
+```text
+Pass 1 → Calculate average
+Pass 2 → Count elements greater than average
+```
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 9. Find Second Smallest Element
+
+### 🎯 Problem
+
+Find the second smallest element.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class SecondSmallest {
+    public static void main(String[] args) {
+
+        int[] arr = {10, 20, 30, 40, 50};
+
+        int smallest = arr[0];
+        int secondSmallest = arr[1];
+
+        for (int i = 0; i < arr.length; i++) {
+
+            if (arr[i] < smallest) {
+                secondSmallest = smallest;
+                smallest = arr[i];
+            }
+        }
+
+        System.out.println("Second Smallest = " + secondSmallest);
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Second Smallest = 20
+```
+
+### 🔑 Important Pattern
+
+When a new smallest is found:
+
+```java
+secondSmallest = smallest;
+smallest = arr[i];
+```
+
+The **old smallest becomes the new second smallest**.
+
+### ⚠️ Note
+
+This beginner version works for the array used in today's exercise. Later, we'll learn a more robust second-smallest algorithm that handles arbitrary unsorted arrays and duplicate/edge cases correctly.
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 10. Check if Array is Sorted in Ascending Order
+
+### 🎯 Problem
+
+Check whether an array is sorted in ascending order.
+
+### 💻 Code
+
+```java
+package p1;
+
+public class SortingInAscOrder {
+    public static void main(String[] args) {
+
+        int[] arr = {10, 20, 30, 40, 50};
+
+        boolean sorted = true;
+
+        for (int i = 0; i < arr.length - 1; i++) {
+
+            if (arr[i] > arr[i + 1]) {
+                sorted = false;
+                break;
+            }
+        }
+
+        if (sorted) {
+            System.out.println("Array is sorted");
+        } else {
+            System.out.println("Array is not sorted");
+        }
+    }
+}
+```
+
+### 🖥️ Output
+
+```text
+Array is sorted
+```
+
+### 🔍 Dry Run
+
+```text
+10 > 20 → false
+20 > 30 → false
+30 > 40 → false
+40 > 50 → false
+```
+
+No violation was found, so the array is sorted.
+
+### 🧠 Why `arr.length - 1`?
+
+We compare:
+
+```java
+arr[i]
+```
+
+with:
+
+```java
+arr[i + 1]
+```
+
+For an array of length `5`, the last index is `4`.
+
+If `i = 4`, then:
+
+```java
+arr[i + 1]
+arr[5]
+```
+
+would cause an `ArrayIndexOutOfBoundsException`.
+
+Therefore:
+
+```java
+i < arr.length - 1
+```
+
+### 🔑 Important Pattern
+
+```java
+boolean sorted = true;
+```
+
+Assume the array is sorted.
+
+If we find a violation:
+
+```java
+if (arr[i] > arr[i + 1]) {
+    sorted = false;
+    break;
+}
+```
+
+### ⏱️ Complexity
+
+* Time: `O(n)`
+* Space: `O(1)`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 🏆 Day 2 DSA Summary
+
+| #  | Program                               | Main Concept         |
+| -- | ------------------------------------- | -------------------- |
+| 1  | Count Elements Greater Than 20        | Conditional counting |
+| 2  | Sum Elements Greater Than 10          | Conditional sum      |
+| 3  | Largest Even Number                   | Conditional maximum  |
+| 4  | Smallest Odd Number                   | Conditional minimum  |
+| 5  | Count Occurrences                     | Frequency counting   |
+| 6  | Difference Between Largest & Smallest | Min + Max            |
+| 7  | Average of Elements                   | Sum + division       |
+| 8  | Count Elements Greater Than Average   | Two-pass array       |
+| 9  | Second Smallest                       | Min tracking         |
+| 10 | Check Sorted Array                    | Adjacent comparison  |
+
+## 🎯 Day 2 Progress
+
+**DSA: 10/10 ✅**
+
+### 🧠 Major patterns learned
+
+```text
+1. Count using count++
+2. Sum using sum += arr[i]
+3. Find maximum
+4. Find minimum
+5. Conditional maximum/minimum
+6. Track occurrences
+7. Multiple passes
+8. Boolean flag pattern
+9. Compare adjacent elements
+10. Array indexing with i + 1
+```
+
+# 🚀 Day 2 Complete
+
+**Java:** 10/10 ✅
+**DSA:** 10/10 ✅
+
+**Total Day 2:** 🏆 **20/20**
+
+Your **Day 2 notes are now GitHub-ready**, with each program visually separated by a large line as you requested.
